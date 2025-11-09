@@ -10,7 +10,7 @@ from django.http import JsonResponse
 from django.contrib.auth.models import User
 from django.contrib.auth import logout, login, authenticate
 from django.views.decorators.csrf import csrf_exempt
-from django.db.models import ObjectDoesNotExist # Required for E1101 fix
+from django.db.models import ObjectDoesNotExist # E1101 Fix
 # --------------------------------------
 
 # --- Local Imports ---
@@ -19,8 +19,6 @@ from .restapis import get_dealers, get_reviews_for_dealer, post_review
 from .restapis import get_dealer_details as get_dealer_details_from_api
 # ---------------------
 
-
-# Get an instance of a logger
 logger = logging.getLogger(__name__)
 
 # --- STATIC PAGE VIEWS (Cleaned) ---
@@ -63,11 +61,14 @@ def registration(request):
     username_exist = False
     
     try:
-        # Pylint E1101 Fix: Catch specific exception
         User.objects.get(username=username) 
         username_exist = True
     except ObjectDoesNotExist:
-        user = User.objects.create_user(username=username, first_name=first_name, last_name=last_name, password=password, email=email)
+        user = User.objects.create_user(
+            username=username, first_name=first_name, 
+            last_name=last_name, password=password, 
+            email=email
+        )
         login(request, user)
         
     if username_exist:
@@ -136,12 +137,10 @@ def get_cars(request):
     Fetches all CarMake and CarModel data from the local Django database.
     """
     try:
-        # Pylint E1101 Fix: Use CarMake.objects.all()
-        car_makes = CarMake.objects.all() 
+        car_makes = CarMake.objects.all()
         dealer_cars = []
         for car_make in car_makes:
-            # Pylint E1101 Fix: Use CarModel.objects.filter
-            models = CarModel.objects.filter(make=car_make) 
+            models = CarModel.objects.filter(make=car_make)
             
             model_data = list(models.values(
                 'id', 
@@ -163,3 +162,4 @@ def get_cars(request):
     except Exception as e:
         logger.error("Error fetching car data: %s", str(e))
         return JsonResponse({"status": 500, "message": f"Internal server error: {e}"})
+        

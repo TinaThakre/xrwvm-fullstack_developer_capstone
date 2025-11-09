@@ -40,5 +40,5 @@ class CarModel(models.Model):
     # FIXED: Explicitly return str (E0307 Fix)
     def __str__(self):
         return str(f"{self.make.name} {self.name} ({self.year})")
+        
 
-# Ensure one blank line is at the end of the file.
