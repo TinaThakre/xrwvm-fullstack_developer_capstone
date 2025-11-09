@@ -1,10 +1,9 @@
-# Uncomment the imports before you add the code
 from django.urls import path
 from django.conf.urls.static import static
 from django.conf import settings
 from djangoapp import views 
 
-APP_NAME = 'djangoapp' # Changed to UPPER_CASE to fix C0103 warning
+APP_NAME = 'djangoapp'
 urlpatterns = [
     # AUTHENTICATION PATHS
     path(route='register', view=views.registration, name='register'),

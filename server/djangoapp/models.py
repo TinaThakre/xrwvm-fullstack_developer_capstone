@@ -1,6 +1,5 @@
 # Uncomment the following imports before adding the Model code
 from django.db import models
-# from django.utils.timezone import now # Removed unused import
 from django.core.validators import MaxValueValidator, MinValueValidator
 
 # Create your models here.
@@ -11,10 +10,9 @@ class CarMake(models.Model):
 
     # FIXED: Explicitly return str (E0307 Fix)
     def __str__(self):
-        return str(self.name) 
+        return str(self.name)
 
 class CarModel(models.Model):
-    # Foreign Key to link to CarMake
     dealer_id = models.IntegerField(default=0)
     make = models.ForeignKey(CarMake, on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
