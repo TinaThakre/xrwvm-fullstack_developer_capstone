@@ -1,8 +1,7 @@
-import requests
 import os
+import requests
 from dotenv import load_dotenv
-import json
-# Removed unused imports CarDealer, DealerReview
+# import json # Removed unused import
 
 load_dotenv()
 
@@ -17,7 +16,8 @@ def get_request(endpoint, **kwargs):
     print(f"GET from {request_url} with params: {kwargs}")
     
     try:
-        response = requests.get(request_url, params=kwargs)
+        # ADDED: timeout argument (W3101 Fix)
+        response = requests.get(request_url, params=kwargs, timeout=10)
         
         if response.status_code == 200:
             return response.json()
@@ -46,7 +46,6 @@ def get_dealers(state=None):
     
     return json_result
 
-# This function is used by the *view* get_dealer_details as an API helper
 def get_dealer_details(dealer_id): 
     endpoint = f"/fetchDealer/{dealer_id}"
     json_result = get_request(endpoint)
@@ -71,7 +70,8 @@ def analyze_review_sentiments(text):
     request_url = f"{sentiment_analyzer_url}/analyze/{text}"
     
     try:
-        response = requests.get(request_url)
+        # ADDED: timeout argument (W3101 Fix)
+        response = requests.get(request_url, timeout=10)
         if response.status_code == 200:
             return response.json()
         else:
@@ -87,8 +87,10 @@ def post_review(data_dict):
     print(f"POST to {request_url} with data: {data_dict}")
     
     try:
-        response = requests.post(request_url, json=data_dict)
-        if response.status_code == 200 or response.status_code == 201:
+        # ADDED: timeout argument (W3101 Fix)
+        response = requests.post(request_url, json=data_dict, timeout=10)
+        # R1714 Fix: Use 'in' operator
+        if response.status_code in (200, 201):
             return response.json()
         else:
             print(f"Post review failed with status: {response.status_code}")
@@ -96,3 +98,4 @@ def post_review(data_dict):
     except requests.exceptions.RequestException as e:
         print(f"Network error during POST: {e}")
         return None
+

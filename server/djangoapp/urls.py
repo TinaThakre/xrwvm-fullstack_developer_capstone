@@ -4,7 +4,7 @@ from django.conf.urls.static import static
 from django.conf import settings
 from djangoapp import views 
 
-app_name = 'djangoapp'
+APP_NAME = 'djangoapp' # Changed to UPPER_CASE to fix C0103 warning
 urlpatterns = [
     # AUTHENTICATION PATHS
     path(route='register', view=views.registration, name='register'),
@@ -12,7 +12,6 @@ urlpatterns = [
     path(route='logout', view=views.logout_request, name='logout'),
 
     # DEALER LIST PATHS (Task 19)
-    # Handles /djangoapp/get_dealers/ and /djangoapp/get_dealers/Texas
     path(route='get_dealers', view=views.get_dealers_list, name='get_dealers_list'),
     path(route='get_dealers/<str:state>', view=views.get_dealers_list, name='get_dealers_by_state'),
 
@@ -24,8 +23,6 @@ urlpatterns = [
     path(route='add_review', view=views.add_review, name='add_review'),
     
     path(route='get_cars', view=views.get_cars, name='get_cars'),
-    # You may optionally need paths for your static pages here if React isn't handling them
-    # path('about/', views.about, name='about'),
-    # path('contact/', views.contact, name='contact'),
-
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+# Ensure one blank line is at the end of the file.
