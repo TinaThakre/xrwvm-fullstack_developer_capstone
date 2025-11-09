@@ -1,6 +1,6 @@
 # Uncomment the required imports before adding the code
 
-# from django.shortcuts import render
+from django.shortcuts import render
 # from django.http import HttpResponseRedirect, HttpResponse
 # from django.contrib.auth.models import User
 # from django.shortcuts import get_object_or_404, render, redirect
@@ -18,6 +18,16 @@ from django.views.decorators.csrf import csrf_exempt
 
 # Get an instance of a logger
 logger = logging.getLogger(__name__)
+
+# View for the About Us page
+def about(request):
+    # Renders the about.html template
+    return render(request, 'about.html')
+
+# View for the Contact Us page
+def contact(request):
+    # Renders the contact.html template
+    return render(request, 'contact.html')
 
 
 # Create your views here.
