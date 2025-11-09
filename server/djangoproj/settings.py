@@ -12,12 +12,18 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 
 import os
 from pathlib import Path
-
+# Add this import here for the dotenv reader
+from dotenv import load_dotenv # <-- Make sure this is imported
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# Load environment variables from .env file
+load_dotenv(os.path.join(BASE_DIR.parent, 'djangoapp', '.env')) # Correct path to your .env file
 
+# Define variables using the keys from the .env file
+DEALERSHIP_API_URL = os.environ.get("backend_url")
+SENTIMENT_ANALYZER_URL = os.environ.get("sentiment_analyzer_url")
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
